@@ -32,65 +32,63 @@ import {
   LayoutGrid,
 } from "lucide-react";
 import "./styles/github-markdown.css";
+
 const LAYOUT_PRESETS = [
   {
     name: "Editor Focus",
-    // icon: <Code className="w-4 h-4" />,
     state: { editorWidth: 70, inputHeight: 0 },
   },
   {
     name: "Preview Focus",
-    // icon: <Palette className="w-4 h-4" />,
     state: { editorWidth: 30 },
   },
   {
     name: "Large Terminal",
-    // icon: <Command className="w-4 h-4" />,
     state: { inputHeight: 60 },
   },
   {
     name: "No Sidebar",
-    // icon: <Settings className="w-4 h-4" />,
     state: { sidebarWidth: 0 },
   },
   {
     name: "Full Editor",
-    // icon: <FileText className="w-4 h-4" />,
     state: { sidebarWidth: 0, editorWidth: 100, inputHeight: 0 },
   },
   {
     name: "Full Preview",
-    // icon: <Eye className="w-4 h-4" />,
     state: { sidebarWidth: 0, editorWidth: 0, inputHeight: 0 },
   },
   {
     name: "Minimal",
-    // icon: <Terminal className="w-4 h-4" />,
     state: { sidebarWidth: 10, editorWidth: 40, inputHeight: 10 },
   },
   {
     name: "Wide Terminal",
-    // icon: <Command className="w-4 h-4" />,
     state: { sidebarWidth: 0, inputHeight: 40 },
   },
   {
     name: "Sidebar Only",
-    // icon: <Folder className="w-4 h-4" />,
     state: { sidebarWidth: 30, editorWidth: 0, inputHeight: 0 },
   },
 ];
 
 export default function ResizableLayout() {
-  const [sidebarWidth, setSidebarWidth] = useState(15); // percentage of the screen
-  const [editorWidth, setEditorWidth] = useState(50); // percentage of the main area
-  const [inputHeight, setInputHeight] = useState(30); // percentage of the screen
+  const [sidebarWidth, setSidebarWidth] = useState(15);
+  const [editorWidth, setEditorWidth] = useState(50);
+  const [inputHeight, setInputHeight] = useState(30);
   const [isButtonTransition, setIsButtonTransition] = useState(false);
   const [isDragging, setIsDragging] = useState<string | null>(null);
   const [isTypingEffectEnabled, setIsTypingEffectEnabled] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement>(null);
+
+  // Check if we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Correct logic to hide elements - only hides if not in transition
   const isEditorHidden = editorWidth <= 0 && !isButtonTransition;
@@ -103,11 +101,15 @@ export default function ResizableLayout() {
   // Simple cleanup
   const resetDragState = useCallback(() => {
     setIsDragging(null);
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
+    if (typeof document !== 'undefined') {
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
   }, []);
 
   useEffect(() => {
+    if (!isClient) return;
+
     // Global cleanup for emergencies
     const handleGlobalMouseUp = () => {
       if (isDragging) {
@@ -129,26 +131,31 @@ export default function ResizableLayout() {
 
     document.addEventListener("mouseup", handleGlobalMouseUp);
     document.addEventListener("keydown", handleEscape);
-    window?.addEventListener("blur", handleBlur);
+    window.addEventListener("blur", handleBlur);
 
     // Set global setters
-    window.setSidebarWidth = setSidebarWidth;
-    window.setEditorWidth = setEditorWidth;
-    window.setInputHeight = setInputHeight;
+    if (typeof window !== 'undefined') {
+      window.setSidebarWidth = setSidebarWidth;
+      window.setEditorWidth = setEditorWidth;
+      window.setInputHeight = setInputHeight;
+    }
 
     return () => {
       document.removeEventListener("mouseup", handleGlobalMouseUp);
       document.removeEventListener("keydown", handleEscape);
-      window?.removeEventListener("blur", handleBlur);
+      window.removeEventListener("blur", handleBlur);
 
-      window.setSidebarWidth = undefined;
-      window.setEditorWidth = undefined;
-      window.setInputHeight = undefined;
+      if (typeof window !== 'undefined') {
+        window.setSidebarWidth = undefined;
+        window.setEditorWidth = undefined;
+        window.setInputHeight = undefined;
+      }
     };
-  }, [isDragging, resetDragState]);
+  }, [isDragging, resetDragState, isClient]);
 
   const handleSidebarResize = useCallback(
     (e: React.MouseEvent) => {
+      if (!isClient) return;
       e.preventDefault();
       e.stopPropagation();
 
@@ -181,11 +188,12 @@ export default function ResizableLayout() {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
     },
-    [isDragging, resetDragState]
+    [isDragging, resetDragState, isClient]
   );
 
   const handleEditorResize = useCallback(
     (e: React.MouseEvent) => {
+      if (!isClient) return;
       e.preventDefault();
       e.stopPropagation();
 
@@ -206,12 +214,11 @@ export default function ResizableLayout() {
         const percentage =
           (newWidth / (window.innerWidth - sidebarWidthPx)) * 100;
 
-        // Automatic snap to 0% or 100%
         let finalPercentage = percentage;
         if (percentage < 1) {
-          finalPercentage = 0; // Snap to 0% (maximize preview)
+          finalPercentage = 0;
         } else if (percentage > 99) {
-          finalPercentage = 100; // Snap to 100% (maximize editor)
+          finalPercentage = 100;
         } else if (percentage >= 0 && percentage <= 100) {
           finalPercentage = percentage;
         }
@@ -229,11 +236,12 @@ export default function ResizableLayout() {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
     },
-    [sidebarWidth, isDragging, resetDragState]
+    [sidebarWidth, isDragging, resetDragState, isClient]
   );
 
   const handleInputResize = useCallback(
     (e: React.MouseEvent) => {
+      if (!isClient) return;
       e.preventDefault();
       e.stopPropagation();
 
@@ -251,19 +259,18 @@ export default function ResizableLayout() {
         e.preventDefault();
         document.body.style.cursor = "ns-resize";
         const newHeight = startHeight + (startY - e.clientY);
-        const availableHeight = window?.innerHeight - menuHeight;
+        const availableHeight = window.innerHeight - menuHeight;
         const percentage = (newHeight / availableHeight) * 100;
 
-        // Automatic snap to 0% or 100%
         let finalPercentage = percentage;
         if (percentage < 1) {
-          finalPercentage = 0; // Snap to 0% (hide input)
+          finalPercentage = 0;
         } else if (percentage > 99) {
-          finalPercentage = 100; // Snap to 100% (maximize input)
+          finalPercentage = 100;
         } else if (percentage >= 30 && percentage <= 100) {
-          finalPercentage = percentage; // Allow values between 30% and 100%
+          finalPercentage = percentage;
         } else if (percentage < 30 && percentage >= 5) {
-          finalPercentage = 30; // Keep at least 30% if not hiding
+          finalPercentage = 30;
         }
 
         setInputHeight(finalPercentage);
@@ -279,7 +286,7 @@ export default function ResizableLayout() {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
     },
-    [isDragging, resetDragState]
+    [isDragging, resetDragState, isClient]
   );
 
   const applyPreset = (preset: (typeof LAYOUT_PRESETS)[0]) => {
@@ -381,9 +388,14 @@ export default function ResizableLayout() {
 
   // Calculate heights for display
   const menuHeight = 32;
-  const availableHeight = 100 - (menuHeight / window?.innerHeight) * 100;
+  const availableHeight = isClient ? 100 - (menuHeight / window.innerHeight) * 100 : 100;
   const editorHeight = availableHeight - inputHeight;
   const previewHeight = editorHeight;
+
+  // Don't render until client-side hydration is complete
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="markdown-body  h-screen flex flex-col bg-gray-900 text-white overflow-hidden">
