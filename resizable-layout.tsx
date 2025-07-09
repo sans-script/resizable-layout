@@ -263,14 +263,12 @@ export default function ResizableLayout() {
         const percentage = (newHeight / availableHeight) * 100;
 
         let finalPercentage = percentage;
-        if (percentage < 1) {
-          finalPercentage = 0;
+        if (percentage < 30) {
+          finalPercentage = 30; // Minimum 30% when dragging manually
         } else if (percentage > 99) {
           finalPercentage = 100;
         } else if (percentage >= 30 && percentage <= 100) {
           finalPercentage = percentage;
-        } else if (percentage < 30 && percentage >= 5) {
-          finalPercentage = 30;
         }
 
         setInputHeight(finalPercentage);
@@ -521,10 +519,6 @@ export default function ResizableLayout() {
             transition: transitionStyle,
           }}
         >
-          {/* <div className="h-12 bg-green-700 flex items-center px-4">
-            <Folder className="w-5 h-5 mr-2" />
-            <span className="font-semibold">Files</span>
-          </div> */}
           <div className="border-r border-[#2D2F34] flex-1 p-4 flex items-center justify-center">
             <div className="text-center">
               <p className="text-lg font-medium">File Panel</p>
@@ -536,14 +530,16 @@ export default function ResizableLayout() {
           </div>
           {/* Resize Handle */}
           <div
-            className={`absolute top-0 right-0 bottom-0 w-1 cursor-col-resize transition-colors ${
-              isDragging === "sidebar" ? "bg-[#4D4F54]" : "bg-transparent"
+            className={`absolute top-0 -right-[0.8px] bottom-0 w-[3px] cursor-col-resize transition-colors z-50 ${
+              isDragging === "sidebar" ? "bg-[#4D4F54]" : "bg-transparent hover:bg-[#4D4F54]"
             }`}
             style={{
               cursor:
                 isDragging === "sidebar"
                   ? "ew-resize !important"
                   : "col-resize",
+                  
+                  
             }}
             onMouseDown={handleSidebarResize}
           />
@@ -567,10 +563,6 @@ export default function ResizableLayout() {
                 editorWidth <= 0 && !isButtonTransition ? "none" : "flex",
             }}
           >
-            {/* <div className="h-12 bg-purple-700 flex items-center px-4">
-              <FileText className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Editor</span>
-            </div> */}
             <div className="flex-1 p-4 flex items-center justify-center">
               <div className="text-center">
                 <p className="text-xl font-medium">Editor</p>
@@ -582,22 +574,27 @@ export default function ResizableLayout() {
                 </p>
               </div>
             </div>
-            {/* Resize Handle - only appears when both are visible */}
-            {!isEditorResizeHandleHidden && (
-              <div
-                className={`absolute top-0 right-0 bottom-0 w-1 cursor-col-resize transition-colors ${
-                  isDragging === "editor" ? "bg-[#4D4F54]" : "bg-transparent"
-                }`}
-                style={{
-                  cursor:
-                    isDragging === "editor"
-                      ? "ew-resize !important"
-                      : "col-resize",
-                }}
-                onMouseDown={handleEditorResize}
-              />
-            )}
           </div>
+
+          {/* Resize Handle - only appears when both are visible */}
+          {!isEditorResizeHandleHidden && (
+            <div
+              className={`absolute top-0 bottom-0 cursor-col-resize transition-colors z-50 ${
+                isDragging === "editor" ? "bg-[#4D4F54]" : "bg-transparent hover:bg-[#4D4F54]"
+              }`}
+              style={{
+                cursor:
+                  isDragging === "editor"
+                    ? "ew-resize !important"
+                    : "col-resize",
+                left: `${editorWidth}%`,
+                height: inputHeight <= 0 ? "100%" : `${100 - inputHeight}%`,
+                marginLeft: "-2.1px",
+                width: "3px"
+              }}
+              onMouseDown={handleEditorResize}
+            />
+          )}
 
           {/* Preview */}
           <div
@@ -615,10 +612,6 @@ export default function ResizableLayout() {
                 editorWidth >= 100 && !isButtonTransition ? "none" : "flex",
             }}
           >
-            {/* <div className="h-12 bg-orange-700 flex items-center px-4">
-              <Eye className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Preview</span>
-            </div> */}
             <div className="flex-1 p-4 flex items-center justify-center">
               <div className="text-center">
                 <p className="text-xl font-medium">Preview</p>
@@ -645,8 +638,8 @@ export default function ResizableLayout() {
           >
             {/* Resize Handle */}
             <div
-              className={`h-1 cursor-row-resize transition-colors  border-gray-300 ${
-                isDragging === "input" ? "bg-[#4D4F54]" : "bg-transparent"
+              className={`h-[3px] cursor-row-resize transition-colors absolute top-[-2.1px] left-0 right-0 z-50 ${
+                isDragging === "input" ? "bg-[#4D4F54]" : "bg-transparent hover:bg-[#4D4F54]"
               }`}
               style={{
                 cursor:
@@ -657,10 +650,6 @@ export default function ResizableLayout() {
               onMouseDown={handleInputResize}
               title="Drag to resize the input (drag down to minimize)"
             />
-            {/* <div className="h-12 bg-cyan-700 flex items-center px-4">
-              <Terminal className="w-5 h-5 mr-2" />
-              <span className="font-semibold">Prompt Input</span>
-            </div> */}
             <div className="flex-1 p-4 flex items-center justify-center">
               <div className="text-center">
                 <p className="text-xl font-medium">Prompt Input</p>
