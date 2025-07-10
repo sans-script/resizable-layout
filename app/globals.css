@@ -12,75 +12,183 @@ body {
   }
 }
 
+/* Dark Theme Specific Colors */
+@layer utilities {
+  /* Background colors */
+  .bg-primary-black {
+    background-color: #000000;
+  }
+  .bg-primary-dark {
+    background-color: #080808;
+  }
+  .bg-primary-gray {
+    background-color: #222222;
+  }
+  .bg-border-color {
+    background-color: #333333;
+  }
+  .bg-accent-blue {
+    background-color: #0040ff;
+  }
+  .bg-accent-light-blue {
+    background-color: #0080ff;
+  }
+
+  /* Resize handle specific colors */
+  .bg-resize-handle-hover {
+    background-color: #0040ff;
+  }
+  .bg-resize-handle-active {
+    background-color: #0040ff;
+  }
+
+  /* Text colors */
+  .text-primary-white {
+    color: #ffffff;
+  }
+  .text-primary-gray {
+    color: #999999;
+  }
+  .text-primary-dark-gray {
+    color: #555555;
+  }
+  .text-accent-blue {
+    color: #0040ff;
+  }
+  .text-accent-light-blue {
+    color: #0080ff;
+  }
+  .text-danger {
+    color: #ec3a37f5;
+  }
+  .text-warning {
+    color: #fad000;
+  }
+  .text-success {
+    color: #3ad900;
+  }
+
+  /* Border colors */
+  .border-primary-gray {
+    border-color: #222222;
+  }
+  .border-primary-border {
+    border-color: #333333;
+  }
+  .border-accent-blue {
+    border-color: #0040ff;
+  }
+  .border-accent-light-blue {
+    border-color: #0080ff;
+  }
+
+  /* Interactive states */
+  .hover-primary-gray:hover {
+    background-color: #181818;
+  }
+  .hover-accent-blue:hover {
+    background-color: #0080ff;
+  }
+  .hover:bg-accent-light-blue:hover {
+    background-color: #0080ff;
+  }
+
+  /* Menu item with electric blue glow/shadow */
+  .menu-item {
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 64, 255, 0.4), 0 0 40px rgba(0, 128, 255, 0.3),
+      0 0 60px rgba(0, 64, 255, 0.2);
+    border-radius: 6px;
+  }
+
+  /* Focus states */
+  .focus-accent-blue:focus {
+    outline: 2px solid #0040ff;
+    outline-offset: 2px;
+  }
+
+  /* Remove focus from buttons */
+  button:focus,
+  button:focus-visible,
+  [role="button"]:focus,
+  [role="button"]:focus-visible {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Override dropdown menu item backgrounds */
+  [role="menuitem"]:hover,
+  [role="menuitem"][data-highlighted],
+  [role="menuitem"]:focus,
+  .dropdown-menu-item:hover,
+  .dropdown-menu-item[data-highlighted],
+  .dropdown-menu-item:focus {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+  }
+
+  /* Terminal/Console colors */
+  .text-console-red {
+    color: #ec3a37f5;
+  }
+  .text-console-green {
+    color: #3ad900;
+  }
+  .text-console-yellow {
+    color: #fad000;
+  }
+  .text-console-blue {
+    color: #6943ff;
+  }
+  .text-console-magenta {
+    color: #ff2c70;
+  }
+  .text-console-cyan {
+    color: #80fcff;
+  }
+  .text-console-gray {
+    color: #5c5c61;
+  }
+}
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Dark theme as default - cores exatas do tema */
+    --background: 0 0% 0%; /* Pure black background #000000 */
+    --foreground: 0 0% 100%; /* Pure white text #ffffff */
+    --card: 0 0% 3.1%; /* Slightly lighter than background #080808 */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 3.1%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 220 100% 50%; /* Blue accent #0040ff */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 13.3%; /* Dark gray #222222 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 13.3%;
+    --muted-foreground: 0 0% 60%; /* Medium gray #999999 */
+    --accent: 200 100% 50%; /* Light blue accent #0080ff */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 3 89% 58%; /* Red #ec3a37 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%; /* Border color #333333 */
+    --input: 0 0% 3.1%; /* Input background #080808 */
+    --ring: 220 100% 50%; /* Focus ring blue #0040ff */
+    --chart-1: 53 100% 50%; /* Yellow #fad000 */
+    --chart-2: 120 100% 25%; /* Green #3ad900 */
+    --chart-3: 269 100% 66%; /* Purple #6943ff */
+    --chart-4: 339 100% 58%; /* Pink #ff2c70 */
+    --chart-5: 180 100% 75%; /* Cyan #80fcff */
+    --sidebar-background: 0 0% 0%; /* Black sidebar */
+    --sidebar-foreground: 0 0% 60%; /* Gray text */
+    --sidebar-primary: 220 100% 50%; /* Blue primary */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 0 0% 10.9%; /* Darker accent */
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%; /* Gray border */
+    --sidebar-ring: 220 100% 50%;
+    --radius: 0.5rem;
   }
 }
 

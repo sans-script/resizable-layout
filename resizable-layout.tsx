@@ -14,7 +14,6 @@ import { TopMenu } from "./components/TopMenu";
 import { Panel } from "./components/Panel";
 import { ResizeHandle } from "./components/ResizeHandle";
 import { LAYOUT_PRESETS } from "./constants/layout";
-import "./styles/github-markdown.css";
 
 export default function ResizableLayout() {
   const {
@@ -46,7 +45,9 @@ export default function ResizableLayout() {
 
   // Calculate heights for display
   const menuHeight = 32;
-  const availableHeight = isClient ? 100 - (menuHeight / window.innerHeight) * 100 : 100;
+  const availableHeight = isClient
+    ? 100 - (menuHeight / window.innerHeight) * 100
+    : 100;
   const editorHeight = availableHeight - inputHeight;
   const previewHeight = editorHeight;
 
@@ -56,7 +57,7 @@ export default function ResizableLayout() {
   }
 
   return (
-    <div className="markdown-body h-screen flex flex-col bg-gray-900 text-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-primary-black text-primary-white overflow-hidden">
       {/* Top Menu */}
       <TopMenu
         onToggleEditor={toggleEditor}
@@ -83,9 +84,9 @@ export default function ResizableLayout() {
             title="File Panel"
             width={sidebarWidth}
             height={100}
-            className="border-r border-[#2D2F34] flex-1"
+            className="border-r border-primary-border flex-1 bg-primary-black text-primary-gray"
           />
-          
+
           {/* Sidebar Resize Handle */}
           <ResizeHandle
             direction="horizontal"
@@ -104,7 +105,7 @@ export default function ResizableLayout() {
           {/* Editor */}
           <div
             ref={editorRef}
-            className="bg-[#0d1117] flex flex-col relative overflow-hidden border-r border-[#2D2F34]"
+            className="bg-primary-black flex flex-col relative overflow-hidden border-r border-primary-border"
             style={{
               width: `${editorWidth}%`,
               height:
@@ -121,7 +122,7 @@ export default function ResizableLayout() {
               title="Editor"
               width={editorWidth}
               height={editorHeight}
-              className="flex-1"
+              className="flex-1 bg-primary-black text-primary-white"
             />
           </div>
 
@@ -143,7 +144,7 @@ export default function ResizableLayout() {
 
           {/* Preview */}
           <div
-            className="bg-[#0d1117] flex flex-col overflow-hidden"
+            className="bg-primary-black flex flex-col overflow-hidden"
             style={{
               width: `${100 - editorWidth}%`,
               height:
@@ -160,14 +161,14 @@ export default function ResizableLayout() {
               title="Preview"
               width={100 - editorWidth}
               height={previewHeight}
-              className="flex-1"
+              className="flex-1 bg-primary-black text-primary-white"
             />
           </div>
 
           {/* Prompt Input */}
           <div
             ref={inputRef}
-            className="bg-[#1a1d23] border-t border-[#2D2F34] flex flex-col absolute bottom-0 left-0 right-0"
+            className="bg-primary-black border-t border-primary-border flex flex-col absolute bottom-0 left-0 right-0"
             style={{
               height: `${inputHeight}%`,
               transition: transitionStyle,
@@ -186,12 +187,12 @@ export default function ResizableLayout() {
                 right: 0,
               }}
             />
-            
+
             <Panel
               title="Prompt Input"
               width={100}
               height={inputHeight}
-              className="flex-1"
+              className="flex-1 bg-primary-black text-primary-white"
             />
           </div>
         </div>
