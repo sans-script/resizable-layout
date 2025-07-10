@@ -61,10 +61,13 @@ export const TopMenu: React.FC<TopMenuProps> = ({
             <Button
               variant="ghost"
               size="sm"
-              className="text-primary-white h-5 px-2 text-xs bg-transparent !border-none !shadow-none !focus:ring-0 !focus:outline-none hover:bg-primary-gray active:bg-primary-gray cursor-pointer !focus:border-none !focus:ring-offset-0 flex items-center justify-center rounded-sm"
+              className="text-primary-white h-5 px-3 text-xs bg-transparent !border-none !shadow-none !focus:ring-0 !focus:outline-none hover:bg-primary-gray active:bg-primary-gray cursor-pointer !focus:border-none !focus:ring-offset-0 flex items-center justify-center rounded-sm"
               style={{ outline: "none", border: "none", boxShadow: "none" }}
             >
-              <Menu className="w-5 h-4 text-primary-white" />
+              <Menu
+                className="w-6 h-4 text-primary-white"
+                style={{ transform: "scaleX(1.2)" }}
+              />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent

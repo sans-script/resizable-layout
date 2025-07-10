@@ -21,7 +21,11 @@ export const Panel: React.FC<PanelProps> = ({
 }) => {
   return (
     <div className={`flex flex-col ${className}`} style={style}>
-      <div className="flex-1 p-4 flex items-center justify-center">
+      <div
+        className={`flex-1 flex items-center justify-center ${
+          children ? "p-0" : "p-4"
+        }`}
+      >
         {children || (
           <div className="text-center">
             <p className="text-xl font-medium">{title}</p>

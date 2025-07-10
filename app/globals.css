@@ -42,6 +42,47 @@ body {
     background-color: #0040ff;
   }
 
+  /* Monaco Editor specific styles */
+  .monaco-editor-container {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+  }
+  .monaco-editor-container .monaco-editor {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+  }
+  .monaco-editor-container .monaco-editor .margin,
+  .monaco-editor-container .monaco-editor .monaco-editor-background {
+    background-color: #000000 !important;
+  }
+
+  /* Monaco Editor Context Menu */
+  .context-view.monaco-menu-container {
+    background-color: #000000 !important;
+    border: 1px solid #333333 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+  }
+  .monaco-menu .monaco-action-bar .action-item {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+  .monaco-menu .monaco-action-bar .action-item:hover {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+  }
+  .monaco-menu .monaco-action-bar .action-item.focused {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+  }
+  .monaco-menu .monaco-action-bar .action-item .action-label {
+    color: #ffffff !important;
+  }
+  .monaco-menu .monaco-action-bar .action-item .keybinding {
+    color: #999999 !important;
+  }
+
   /* Text colors */
   .text-primary-white {
     color: #ffffff;
@@ -190,6 +231,112 @@ body {
     --sidebar-ring: 220 100% 50%;
     --radius: 0.5rem;
   }
+}
+
+/* Status Bar Styles */
+.status-bar {
+  height: 22px;
+  min-height: 22px;
+  max-height: 22px;
+  background-color: #000000;
+  border-top: 1px solid #333333;
+  font-size: 11px;
+  line-height: 1;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  color: #cccccc;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.status-bar .status-item {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  width: 100px;
+  cursor: pointer;
+  background-color: #0080ff;
+  display: flex;
+  justify-content: center;
+  color: #ffffff;
+  padding: 0 8px;
+  font-size: 12px;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+.status-bar .status-item:hover {
+  background-color: #0056ac;
+}
+
+.status-bar .status-item.active {
+  background-color: #0040ff;
+  color: #ffffff;
+}
+
+/* Force remove any blue borders from the application */
+* {
+  border-color: #333333 !important;
+}
+
+/* Global Monaco Editor Styles */
+.monaco-editor .suggest-widget {
+  background-color: #000000 !important;
+  border: 1px solid #333333 !important;
+  color: #ffffff !important;
+}
+
+.monaco-editor .suggest-widget .monaco-list .monaco-list-row {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.monaco-editor .suggest-widget .monaco-list .monaco-list-row:hover,
+.monaco-editor .suggest-widget .monaco-list .monaco-list-row.focused {
+  background-color: #222222 !important;
+  color: #ffffff !important;
+}
+
+.monaco-editor .context-view {
+  background-color: #000000 !important;
+  border: 1px solid #333333 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.monaco-editor .context-view .monaco-menu {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.monaco-editor .context-view .monaco-menu .monaco-action-bar .action-item {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+.monaco-editor .context-view .monaco-menu .monaco-action-bar .action-item:hover,
+.monaco-editor
+  .context-view
+  .monaco-menu
+  .monaco-action-bar
+  .action-item.focused {
+  background-color: #222222 !important;
+  color: #ffffff !important;
+}
+
+/* Specifically target editor containers */
+.bg-primary-black.flex.flex-col.relative.overflow-hidden {
+  border-color: #333333 !important;
+}
+
+/* Remove focus rings */
+*:focus,
+*:focus-visible,
+*:active {
+  outline: none !important;
+  border-color: #333333 !important;
+  box-shadow: none !important;
 }
 
 @layer base {
